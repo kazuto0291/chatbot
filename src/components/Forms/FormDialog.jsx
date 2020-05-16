@@ -32,6 +32,33 @@ export default class FormDialog extends React.Component {
     this.setState({ description: event.target.value })
   }
 
+  submitForm =() => {
+    const name = this.state.name
+    const email = this.state.email
+    const description = this.state.description
+
+    const payload = {
+      text: 'お問い合わせがありました\n' +
+            'お名前：' + name + '\n' +
+            'Email：' + email + '\n' +
+            '問い合わせ内容\n' + description
+    }
+
+    const url = 'https://hooks.slack.com/services/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'
+
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    }).then(() => {
+      alert('送信完了しました。追ってご連絡します！')
+      this.setState( {
+          name: "",
+          email: "",
+          description: ""
+      })
+      return this.props.handleClose()
+    })
+  }
 
   render() {
     return(
@@ -60,10 +87,10 @@ export default class FormDialog extends React.Component {
       </DialogContent>
       <DialogActions>
         <Button onClick={this.props.handleClose} color="primary">
-          Disagree
+          キャンセル
         </Button>
-        <Button onClick={this.props.handleClose} color="primary" autoFocus>
-          Agree
+        <Button onClick={this.submitForm} color="primary" autoFocus>
+          送信する
         </Button>
       </DialogActions>
     </Dialog>
