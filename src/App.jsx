@@ -2,6 +2,7 @@ import React from 'react';
 import defaultDataset from "./dataset";
 import './assets/styles/style.css'
 import {AnswersList, Chats, FormDialog} from "./components/index"
+import {db} from './firebase/index';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -98,6 +99,7 @@ export default class App extends React.Component {
   // }
 
   componentDidMount() {
+    db.collection('questions')
     const initAnswer="";
     this.selectAnswer(initAnswer, this.state.currentId)
     // this.initChats();
